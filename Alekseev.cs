@@ -7,8 +7,9 @@ namespace NoCap_3_5_6_8_
     class Alekseev
     {
          public string Close = "";
-        public string Open = "";
-
+        public string Open = ""; 
+        //Alexxseev
+        
         public void initOpen()
         {
             Open += "@@@@@@@@@@@@@@@@@@@#@@@@@@@#%====@#%+++++++++++@#@##%%=++=++*+*+%%+***@%============%%%%%%====%%+++++++++++";
