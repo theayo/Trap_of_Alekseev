@@ -12,7 +12,7 @@ namespace NoCap_nte_framework_
         public string Open = "";
         public string OpenBrov = "";
 
-        public void quest(string str, Pashuk pash)
+        public void quest(string str)
         {
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.White;
@@ -52,7 +52,7 @@ namespace NoCap_nte_framework_
             Menu menu = new Menu();
             while (true)
             {
-                pash.paintPashuk();
+                this.paintPashuk();
                 Console.WriteLine();
                 Console.SetCursorPosition(0, 47);
                 Console.WriteLine(str + " \n"); //pashuk
