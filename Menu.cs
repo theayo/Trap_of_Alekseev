@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NoCap_3_5_6_8_
+namespace alex
 {
-
     class Menu
     {
         private static int index = 0;
@@ -27,9 +26,9 @@ namespace NoCap_3_5_6_8_
                     Console.BackgroundColor = ConsoleColor.Gray;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-
-                int centerX = (Console.WindowWidth / 2) - (menuItems[i].Length / 2);
-                int centerY = (Console.WindowHeight / 2) + i;
+                
+                int centerX = (1);
+                int centerY = (50) + 2*i;
                 Console.SetCursorPosition(centerX, centerY);
                 Console.Write(menuItems[i]);
                 Console.ResetColor();
@@ -61,6 +60,50 @@ namespace NoCap_3_5_6_8_
 
         }
 
-    }
+    
+        public string drawMenu(string str1, string str2, string str3, int xy)
+        {
+            List<string> menuItems = new List<string>()
+            {
+                str1,str2,str3
+            };
+            for (int i = 0; i < menuItems.Count; i++)
+            {
+                if (i == index)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
 
+                int centerX = (1);
+                int centerY = (xy) + 2 * i;
+                Console.SetCursorPosition(centerX, centerY);
+                Console.Write(menuItems[i]);
+                Console.ResetColor();
+            }
+
+            ConsoleKeyInfo okey = Console.ReadKey();
+
+            if (okey.Key == ConsoleKey.DownArrow)
+            {
+                if (index == menuItems.Count - 1) index = 0;
+                else index++;
+            }
+            else if (okey.Key == ConsoleKey.UpArrow)
+            {
+                if (index <= 0) index = menuItems.Count - 1;
+                else index--;
+            }
+            else if (okey.Key == ConsoleKey.Enter)
+            {
+                return menuItems[index];
+            }
+
+            //            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            return "";
+
+        }
+
+    }
 }
