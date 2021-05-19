@@ -1,47 +1,56 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Media;
 using System.Threading.Tasks;
 
-
-namespace NoCap_3_5_6_8_
+namespace NoCap_nte_framework_
 {
-
     class Program
     {
-        private static int Health = 100;
+        private static char stage = ' ';
+        private static int Health = 50;
 
         private const int ScreenWidth = 150;
-        private const int ScreenHeight = 90;
+        private const int ScreenHeight = 110;
+
         private const int MapHeight = 32;
         private const int MapWidth = 32;
 
         private const double Depth = 16;
         private const double Fov = Math.PI / 3.5;
 
-        private static double _playerX = 2.0;
-        private static double _playerY = 2.0;
-        private static double _playerA ;
+        private static double _playerX = 1.0;
+        private static double _playerY = 3.0;
+        private static double _playerA = 1.5;
 
         private static readonly StringBuilder Map = new StringBuilder();
 
         static async Task Main()
         {
-            //exepction esli console izmenayut
-
+            //Console.Beep();
+            Console.CursorVisible = false;
+            Console.ResetColor();
             Console.SetWindowSize(ScreenWidth, ScreenHeight);
             Console.SetBufferSize(ScreenWidth, ScreenHeight);
 
             Menu a = new Menu();
+            
+            SoundPlayer player = new SoundPlayer(@"C:\Users\bezzu\source\repos\NoCap(nte framework)\NoCap(nte framework)\CyberPunk.wav");
+            player.Play();
+            
+
             while (true)
             {
-                string selectedMenuItem = a.drawMenu();
+                string selectedMenuItem = a.drawMenu();//menu
+                player.Stop();
+
                 if (selectedMenuItem == "Start")
                 {
                     InitMap();
 
-                    var screen = new char[ScreenWidth * ScreenHeight];
+                    var screen = new char[ScreenWidth * ScreenHeight];  //screen buffer
 
                     DateTime dateTimeFrom = DateTime.Now;
                     DateTime date1 = new DateTime(0, 0);
@@ -49,7 +58,7 @@ namespace NoCap_3_5_6_8_
 
                     while (true)
                     {
-                        
+
                         //elapsed time
                         var dateTimeTo = DateTime.Now;
                         double elapsedTime = (dateTimeTo - dateTimeFrom).TotalSeconds;
@@ -57,7 +66,6 @@ namespace NoCap_3_5_6_8_
 
                         if (Console.KeyAvailable)
                         {
-
                             ConsoleKey consoleKey = Console.ReadKey(true).Key;
 
                             switch (consoleKey)
@@ -99,7 +107,7 @@ namespace NoCap_3_5_6_8_
                                         break;
                                     }
 
-                            }
+                            }       //control buttons
 
                             if (consoleKey == ConsoleKey.Escape)
                             {
@@ -122,21 +130,57 @@ namespace NoCap_3_5_6_8_
                             }
                         }
 
+                        //Timer
                         date1 = date1.AddSeconds(0.005);
                         timeInGame = date1.ToString("mm:ss");
 
                         //Stats
-                        char[] stats = $"Mode: {"Easy"},Menu: {"Escape"},Health:{Health}, Time: {timeInGame}, A: {_playerA}, FPS: {(int)(1 / elapsedTime)}"
+                        char[] stats = $"Mode: {"Easy"},Menu: {"Escape"},Pashuk Health:{Health}, Time: {timeInGame}, A: {_playerA}, FPS: {(int)(1 / elapsedTime)},angel: {_playerA}"
                             .ToCharArray();
                         stats.CopyTo(screen, 0);
 
-                        if (Map[(int)(_playerY + 1) * MapWidth + (int)_playerX] == '*')
+                        //Dialoge
+                        stage = Map[(int)(_playerY + 1) * MapWidth + (int)_playerX];
+                        switch (stage)
                         {
-                            Alekseev ramzes = new Alekseev();
-                            ramzes.initClose();
-                            ramzes.paintAlekseev();
+                            case '*':
+
+                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                Console.BackgroundColor = ConsoleColor.Yellow;
+                                Ramzes v = new Ramzes();
+                                Console.Clear();
+                                Console.SetCursorPosition(0, 0);
+                                v.quest("2!", v);
+
+                                _playerX = 12.0;
+                                _playerY = 3.0;
+                                break;
+                            case '+':
+                                _playerY = 9.0;
+                                _playerX = 2.0;
+
+                                Console.Clear();
+                                Console.SetCursorPosition(0, 0);
+
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.BackgroundColor = ConsoleColor.White;
+                                break;
+                            case '&':
+                                _playerY = 14.0;
+                                _playerX = 5.0;
+
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                Console.BackgroundColor = ConsoleColor.Blue;
+                                break;
+                            case '^':
+                                Alekseev alex = new Alekseev();
+
+                                Console.Clear();
+                                Console.SetCursorPosition(0, 0);
+                                alex.quest("40 % pROCENT na?", alex);
+                                break;
                         }
-                            
+
 
                         //map
                         for (int x = 0; x < MapWidth; x++)
@@ -154,20 +198,20 @@ namespace NoCap_3_5_6_8_
                         Console.Write(screen, 0, ScreenWidth * ScreenHeight);
 
                     }
-                }
+                }           //start
                 else if (selectedMenuItem == "Settings")
                 {
                     Console.SetCursorPosition(0, 0);
                     Console.WriteLine("SET");
-                }
+                }       //set
                 else if (selectedMenuItem == "Exit")
                 {
                     Console.Clear();
                     Environment.Exit(0);
-                }
+                }          //exit
 
             }
-         
+
         }
 
         public static Dictionary<int, char> CastRay(int x)
@@ -191,7 +235,7 @@ namespace NoCap_3_5_6_8_
                 int testX = (int)(_playerX + rayX * distanceToWall);
                 int testY = (int)(_playerY + rayY * distanceToWall);
 
-                if (testX < 0 || testX >= Depth + _playerX || testY < 0 || testY >= Depth + _playerY)
+                if (testX < 0 || testX >= Depth + _playerX || testY < 0 || testY >= Depth + _playerY) //Hit wall
                 {
                     hitWall = true;
                     distanceToWall = Depth;
@@ -236,10 +280,9 @@ namespace NoCap_3_5_6_8_
             int floor = ScreenHeight - ceiling;
 
             ceiling += (int)(ScreenHeight - ScreenHeight * wallSize);
-
             char wallShade;
 
-            if(isBound)
+            if (isBound)
                 wallShade = '|';
             else if (distanceToWall <= Depth / 4.0)
                 wallShade = '\u2588';
@@ -255,14 +298,18 @@ namespace NoCap_3_5_6_8_
             for (int y = 0; y < ScreenHeight; y++)
             {
                 if (y < ceiling)
+                {
                     result[y * ScreenWidth + x] = ' ';
+                }
                 else if (y > ceiling && y <= floor)
+                {
                     result[y * ScreenWidth + x] = wallShade;
+
+                }
                 else
                 {
                     char floorShade;
                     double b = 1.0 - (y - ScreenHeight / 2.0) / (ScreenHeight / 2.0);
-
 
                     if (b < 0.25)
                         floorShade = '#';
@@ -277,8 +324,8 @@ namespace NoCap_3_5_6_8_
 
                     result[y * ScreenWidth + x] = floorShade;
                 }
-            }
 
+            }
             return result;
         }
 
@@ -286,27 +333,27 @@ namespace NoCap_3_5_6_8_
         {
             Map.Clear();
             Map.Append("################################");
-            Map.Append("#****##......##........###.....#");
-            Map.Append("#****##..##..##..####..###..#**#");
-            Map.Append("#****.**.##......####..###..#**#");
-            Map.Append("###########..########..###..#**#");
-            Map.Append("#........##..#......#.......#**#");
-            Map.Append("#..#..#..##..#...#..############");
-            Map.Append("#..#..#..##..#...#.............#");
-            Map.Append("#..####..##..#...############..#");
-            Map.Append("#................############..#");
+            Map.Append("#......##############......#####");
+            Map.Append("#.....*#*...........#..#.++#..##");
+            Map.Append("#....****................++...##");
+            Map.Append("#.....*#*...........#....++#..##");
+            Map.Append("#......##############......#####");
+            Map.Append("################################");
+            Map.Append("#.....^#^.........&&&...........");
+            Map.Append("#.....^^^.........&&&...........");
+            Map.Append("#.................&&&...........");
+            Map.Append("################################");
             Map.Append("#..............................#");
-            Map.Append("#############################..#");
+            Map.Append("#####..##..#####################");
+            Map.Append("#............##................#");
+            Map.Append("#............##................#");
+            Map.Append("#####..##..#####################");
             Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#..............................#");
-            Map.Append("#...........***................#");
+            Map.Append("################################");
+            Map.Append("#.................!!!..........#");
+            Map.Append("#.................!!!...........");
+            Map.Append("#.................!!!...........");
+            Map.Append("################################");
             Map.Append("#..............................#");
             Map.Append("#..............................#");
             Map.Append("#..............................#");
