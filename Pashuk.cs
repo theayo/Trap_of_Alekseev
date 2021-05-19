@@ -8,7 +8,7 @@ namespace alex
         public string Open = "";
         public string OpenBrov = "";
 
-        public void quest(string str, Pashuk pash) // dialog
+        public void quest(string str, Pashuk pash)
         {
             string output = "";
             this.initOpen();
@@ -48,8 +48,8 @@ namespace alex
                 pash.paintPashuk();
                 Console.WriteLine();
                 Console.SetCursorPosition(0, 47);
-                Console.WriteLine(str + "\n");
-                string str0 = menu.drawMenu("suka", "suka", "suka");
+                Console.WriteLine(str + " \n"); //pashuk
+                string str0 = menu.drawMenu("suka", "suka", "suka",49);
             }
         }
         public void initOpenBrov()
