@@ -1,17 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NoCap_nte_framework_
-{
-    class Alekseev
+class Alekseev
     {
-        public string OpenBrov = "";
-        public string Open = "";
         public string Close = "";
-        public void quest(string str, Alekseev alex)
+        public string Open = "";
+        public string OpenBrov = "";
+        public void quest(string str)
         {
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.White;
@@ -23,25 +15,25 @@ namespace NoCap_nte_framework_
             int i = 0;
             while (output.Length != str.Length)
             {
-                System.Threading.Thread.Sleep(70);
+                System.Threading.Thread.Sleep(20);
                 this.paintAlekseev();
                 Console.SetCursorPosition(0, 0);
                 if (i % 6 == 0) //моргнул
                 {
                     this.paintAleksZakroiBrov();
                     Console.SetCursorPosition(0, 0);
-                    System.Threading.Thread.Sleep(70);
+                    System.Threading.Thread.Sleep(20);
                 }
                 if (i % 8 == 0) //моргнул
                 {
                     this.paintAleksZakroiBrov();
                     Console.SetCursorPosition(0, 0);
-                    System.Threading.Thread.Sleep(90);
+                    System.Threading.Thread.Sleep(20);
                 }
                 if (i % 4 == 0 || i % 7 == 0)
-                    System.Threading.Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(70);
                 this.paintAlekseev();
-                Console.SetCursorPosition(5, 45);
+                Console.SetCursorPosition(5, 65);
                 output += str[i];
                 Console.WriteLine("\n");
                 Console.WriteLine(output);
@@ -51,11 +43,11 @@ namespace NoCap_nte_framework_
             Menu menu = new Menu();
             while (true)
             {
-                alex.paintAlekseev();
+                this.paintAlekseev();
                 Console.WriteLine();
-                Console.SetCursorPosition(0, 47);
+                Console.SetCursorPosition(0, 67);
                 Console.WriteLine(str + " \n"); //pashuk
-                string str0 = menu.drawMenu("suka", "suka", "suka", 49);
+                string str0 = menu.drawMenu("suka", "suka", "suka", 70);
             }
         }
         public void initOpenBrov()
@@ -264,7 +256,7 @@ namespace NoCap_nte_framework_
 
         public void paintAlekseev()
         {
-            //  Console.Clear();
+          //  Console.Clear();
             int i = 0;
             while (Close.Length != i)
             {
@@ -274,7 +266,7 @@ namespace NoCap_nte_framework_
                 i++;
             }
         }
-
+        
         public void paintAleksZakroiRot()
         {
             int i = 0;
@@ -299,4 +291,3 @@ namespace NoCap_nte_framework_
             }
         }
     }
-}
